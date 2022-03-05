@@ -1,6 +1,6 @@
 import os
 
-if os.getcwd() == '/home/runner/work/workflow_exp/workflow_exp':
+if os.getcwd() == '/home/runner/work/communitymap/communitymap':
 
     GEO_API_URL = os.environ["GEO_API_URL"]
     LOCAL_DB_URL = os.environ["LOCAL_DB_URL"]
