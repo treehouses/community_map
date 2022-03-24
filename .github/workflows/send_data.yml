@@ -22,6 +22,7 @@ jobs:
         run: |
           branch="${GITHUB_REF#refs/heads/}"
           echo "show branch name: $branch"
+          pwd
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           echo ${{ secrets.KNOWN_HOST_1 }} > ~/.ssh/known_hosts
