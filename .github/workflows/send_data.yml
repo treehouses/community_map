@@ -21,12 +21,10 @@ jobs:
       - name: deploy
         run: |
           branch="${GITHUB_REF#refs/heads/}"
-          echo "show branch name: $branch"
-          pwd
+          echo "The branched that was pushed is $branch"
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-          echo ${{ secrets.KNOWN_HOST_1 }} > ~/.ssh/known_hosts
-          echo ${{ secrets.KNOWN_HOST_2 }} >> ~/.ssh/known_hosts
+          echo "maps.media.mit.edu ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFqXBJPFe+pH3L57o1ildAxHssG4lpkloTcw3Wbs64c7bL8M6hR0rre4ufpCKboVLn4trJqbKOPWtFgBJHsgqXA=" > ~/.ssh/known_hosts
           ssh root@maps.media.mit.edu <<EOF
           cd map
           pwd
