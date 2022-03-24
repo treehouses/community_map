@@ -1,4 +1,4 @@
-name: Send Gio Data 
+name: Send Gio Data
 
 on:
   push:
