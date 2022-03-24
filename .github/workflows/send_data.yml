@@ -1,0 +1,32 @@
+name: Send Gio Data 
+
+on:
+  push:
+  #workflow_dispatch:
+
+jobs:
+  Send:
+    name: Send Gio Data
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: sshagent
+        uses: webfactory/ssh-agent@v0.5.2
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: deploy
+        run: |
+          branch="${GITHUB_REF#refs/heads/}"
+          echo "show branch name: $branch"
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          echo ${{ secrets.KNOWN_HOST_1 }} > ~/.ssh/known_hosts
+          echo ${{ secrets.KNOWN_HOST_2 }} >> ~/.ssh/known_hosts
+          ssh root@maps.media.mit.edu <<EOF
+          cd map
+          pwd
+          EOF
