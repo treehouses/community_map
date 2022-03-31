@@ -25,8 +25,5 @@ jobs:
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           echo "maps.media.mit.edu ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFqXBJPFe+pH3L57o1ildAxHssG4lpkloTcw3Wbs64c7bL8M6hR0rre4ufpCKboVLn4trJqbKOPWtFgBJHsgqXA=" > ~/.ssh/known_hosts
-          ssh root@maps.media.mit.edu <<EOF
-          cd map
-          pwd
-          echo "hello"
-          EOF
+          touch data.txt
+          scp data.txt root@maps.media.mit.edu:/root/map/data/
