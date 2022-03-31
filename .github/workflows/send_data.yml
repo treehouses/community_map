@@ -28,4 +28,5 @@ jobs:
           ssh root@maps.media.mit.edu <<EOF
           cd map
           pwd
+          echo "hello"
           EOF
