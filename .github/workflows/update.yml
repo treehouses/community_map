@@ -7,15 +7,14 @@ on:
 
 jobs:
   update:
-
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.8.10' 
-          architecture: 'x64' 
+          python-version: "3.8.10"
+          architecture: "x64"
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -31,7 +30,21 @@ jobs:
           mkdir data
           python main.py
           python analyze_main.py
-    
+
+      - name: sshagent
+        uses: webfactory/ssh-agent@v0.5.2
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: deploy
+        run: |
+          branch="${GITHUB_REF#refs/heads/}"
+          echo "The branched that was pushed is $branch"
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          echo "maps.media.mit.edu ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFqXBJPFe+pH3L57o1ildAxHssG4lpkloTcw3Wbs64c7bL8M6hR0rre4ufpCKboVLn4trJqbKOPWtFgBJHsgqXA=" > ~/.ssh/known_hosts
+          scp ./data/treehouses.js root@maps.media.mit.edu:/root/map/data/data.js
+
       - name: Upload Result
         uses: actions/upload-artifact@v2
         with:
