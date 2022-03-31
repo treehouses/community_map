@@ -5,7 +5,7 @@ import src.result as result
 def main():
 
     update.store_newdata_local_db()
-    result.produce_new_csv()
+    result.produce_new_dataset()
 
 if __name__ == "__main__":
     main()
