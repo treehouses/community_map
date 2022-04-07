@@ -1,6 +1,7 @@
 name: world map
 
 on:
+  push:
   workflow_dispatch:
   repository_dispatch:
     types: update
