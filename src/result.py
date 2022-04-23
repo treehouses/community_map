@@ -44,7 +44,7 @@ def groupby_latlng(datalist):
 
 def trancate(data):
 
-    return [ datum.split(',')[Geo_Data_Col.LAT.value:Geo_Data_Col.FREQUENCY.value] for datum 
+    return [ datum.split(',') for datum 
             in data.split('\n')[CSV_Row.FIRST_DATA_ROW.value:CSV_Row.EMPTY_ROW.value] ]
 
 def make_function(data):
