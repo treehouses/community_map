@@ -29,6 +29,8 @@ jobs:
           HEADER_LOCAL_KEY: ${{ secrets.HEADER_LOCAL_KEY }}
         run: |
           mkdir data
+          mkdir data/year
+          mkdir data/month
           python main.py
           python analyze_main.py
 

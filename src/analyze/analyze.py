@@ -1,41 +1,29 @@
-from src.communicate_db import get_db, count_rows
-from env import LOCAL_DB_URL
-from env import headers_local
-import json
-import io
-import sys
-import os
 
 import pandas as pd
 
+from src.analyze.get_data import DATA
+
+
 COL_NAME_LIST = ['deviceManufacturer', 'deviceName']
 
+def analyze(date=None):
 
-def get_data():
-
-    local_db_data = get_db(
-        LOCAL_DB_URL,
-        headers=headers_local,
-        params={"limit": count_rows(LOCAL_DB_URL, headers=headers_local)})
-    data = pd.read_json(io.StringIO(
-        json.dumps(json.loads(local_db_data)["results"])),
-        orient="records", dtype={'approx_latitude': 'string', 'approx_longitude': 'string'})
-    return data
-
-
-def analyze(date):
-
-    data = get_data()
+    data = DATA.copy()
     data["originalUpdateTime"] = pd.to_datetime(data["originalUpdateTime"])
     data = data.set_index(data["originalUpdateTime"])
-    data = data.loc[date].groupby(
-        ['approx_latitude', 'approx_longitude'], as_index=False).size()
-    print(data)
+    if date:
+        data = data.loc[date].groupby(
+            ['approx_latitude', 'approx_longitude'], as_index=False).size()
+        return data
+    else:
+        data = data.groupby(
+            ['approx_latitude', 'approx_longitude'], as_index=False).size()
+        return data
 
 
 def analyze_mac_and_location():
 
-    data = get_data()
+    data = DATA.copy()
     data = data.groupby(['approx_latitude', 'approx_longitude', 'bluetoothMacAddress'],
                         as_index=False).size().astype({'bluetoothMacAddress': 'string'})
     # .round({'approx_latitude':3, 'approx_longitude':3})
@@ -50,9 +38,9 @@ def analyze_mac_and_location():
 
 def get_device_manufacture():
 
-    data = get_data()
+    data = DATA.copy()
     for col_name in COL_NAME_LIST:
-        data.copy().groupby(
+        DATA.copy().groupby(
             ['approx_latitude', 'approx_longitude',  col_name]).size().to_csv(f'data/geo_{col_name}.csv')
-        data.copy().groupby([col_name, 'approx_latitude',
+        DATA.copy().groupby([col_name, 'approx_latitude',
                             'approx_longitude']).size().to_csv(f'data/{col_name}_geo.csv')
