@@ -49,8 +49,8 @@ jobs:
           scp ./data/*.js root@maps.media.mit.edu:/root/map/data/
           scp ./data/year/*.js root@maps.media.mit.edu:/root/map/data/
           scp ./data/month/*.js root@maps.media.mit.edu:/root/map/data/
-          scp ./*.js root@maps.media.mit.edu:/root/map/
-          scp ./*.html root@maps.media.mit.edu:/root/map/
+          scp ./web/*.js root@maps.media.mit.edu:/root/map/
+          scp ./web/*.html root@maps.media.mit.edu:/root/map/
 
       - name: Upload Result
         uses: actions/upload-artifact@v2
