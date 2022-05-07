@@ -30,6 +30,8 @@ const compareOrder = (a, b) => {
 };
 
 const pickupColorList = (mapPinRangeLength) => {
+  console.log(mapPinRangeLength);
+  if (mapPinRangeLength === 1) return [colorWithPriolity[0].color];
   return (colorList = colorWithPriolity
     .filter((x) => x.priolirty < mapPinRangeLength)
     .sort(compareOrder)
@@ -93,6 +95,9 @@ const doesNotHaveEmptyElement = (range_list) => {
 };
 
 const generateMapPinRange = (data) => {
+  if (data.length === 1) {
+    return [[data[0][2], data[0][2]]];
+  }
   const freqencyCountObject = data.reduce((freqencyCountObject, datum) => {
     const freqency = datum[2];
 
