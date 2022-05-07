@@ -1,4 +1,4 @@
-from build.val import secrets
+from src.build.val import secrets
 from src.build.conf import file_list
 
 def build():
