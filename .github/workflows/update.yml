@@ -27,6 +27,7 @@ jobs:
           REMOTE_DB_URL: ${{ secrets.REMOTE_DB_URL }}
           HEADER_KEY: ${{  secrets.HEADER_KEY }}
           HEADER_LOCAL_KEY: ${{ secrets.HEADER_LOCAL_KEY }}
+          GOOGLE_KEY: ${{ secrets.GOOGLE_KEY }}
         run: |
           mkdir data
           mkdir data/year
