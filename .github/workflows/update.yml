@@ -51,6 +51,7 @@ jobs:
           scp ./data/month/*.js root@maps.media.mit.edu:/root/map/data/
           scp ./web/*.js root@maps.media.mit.edu:/root/map/
           scp ./web/*.html root@maps.media.mit.edu:/root/map/
+          scp ./web/asset/*.ico root@maps.media.mit.edu:/root/map/asset/
 
       - name: Upload Result
         uses: actions/upload-artifact@v2
