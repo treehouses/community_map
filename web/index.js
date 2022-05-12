@@ -4,6 +4,9 @@ const mapPin =
 
 const monthRegex = new RegExp("[0-9]{4}-[0-9]{2}");
 const yearRegex = new RegExp("[0-9]{4}");
+const isRoot =
+  window.location.href.indexOf("index.html") > 0 ||
+  window.location.href.indexOf(".html") === -1;
 
 const colorWithPriolity = [
   { priolirty: 0, order: 0, color: "#f5422a" },
@@ -66,9 +69,11 @@ function initMap() {
     script.src = `data/${name}.js`;
   }
   document.getElementsByTagName("head")[0].appendChild(script);
-  toggleButtonControl();
-  constructLinkGenerator();
-  handleInput();
+  if (!isRoot) {
+    toggleButtonControl();
+    constructLinkGenerator();
+    handleInput();
+  }
 }
 
 const chooseColor = (freq, distColorList) => {
@@ -308,5 +313,5 @@ const geo_call = function (data) {
     });
   }
   generateLegend(distColorList);
-  editgenelateLink();
+  if (!isRoot) editgenelateLink();
 };

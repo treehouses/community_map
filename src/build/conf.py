@@ -1,1 +1,1 @@
-file_list = ['index', 'map']
+file_list = ['index', 'map', 'nav']
