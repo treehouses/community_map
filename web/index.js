@@ -278,6 +278,12 @@ const switchInputMode = () => {
     year.removeAttribute("hidden");
   }
 };
+
+class EventControl {
+  constructor() {
+    this.current;
+  }
+}
 // Loop through the res array and place a marker for each
 // set of coordinates.
 const geo_call = function (data) {
@@ -306,10 +312,31 @@ const geo_call = function (data) {
     const latLng = new google.maps.LatLng(Number(datum[0]), Number(datum[1]));
     svgMarker.fillColor = chooseColor(datum[2], distColorList);
 
-    new google.maps.Marker({
+    const content = `
+    <div>
+    <p>${datum[2]}</p>
+    <dr>
+    <p>Latitude: ${datum[0]}</p>
+    <p>Longitude: ${datum[1]}</p>
+    </div>
+    `;
+
+    const infowindow = new google.maps.InfoWindow({
+      content: content,
+    });
+
+    const marker = new google.maps.Marker({
       position: latLng,
       icon: svgMarker,
       map: map,
+    });
+
+    marker.addListener("click", () => {
+      infowindow.open({
+        anchor: marker,
+        map,
+        shouldFocus: false,
+      });
     });
   }
   generateLegend(distColorList);
