@@ -2,9 +2,6 @@ let map;
 const mapPin =
   "M 168.3 499.2 C 116.1 435 0 279.4 0 192 C 0 85.96 85.96 0 192 0 C 298 0 384 85.96 384 192 C 384 279.4 267 435 215.7 499.2 C 203.4 514.5 180.6 514.5 168.3 499.2 H 168.3z M192 256 C 227.3 256 256 227.3 256 192C256 156.7 227.3 128 192 128 C 156.7 128 128 156.7 128 192 C 128 227.3 156.7 256 192 256z";
 
-const mapPin_small =
-  "M 168.3 499.2 C 116.1 435 0 279.4 0 192 C 0 85.96 85.96 0 192 0 C 298 0 384 85.96 384 192 C 384 279.4 267 435 215.7 499.2 C 203.4 514.5 180.6 514.5 168.3 499.2 H 178.3z M192 256 C 227.3 256 256 227.3 256 192C256 156.7 227.3 128 192 128 C 156.7 128 128 156.7 128 192 C 128 227.3 156.7 256 192 256z";
-
 const monthRegex = new RegExp("[0-9]{4}-[0-9]{2}");
 const yearRegex = new RegExp("[0-9]{4}");
 const isRoot =
@@ -312,16 +309,39 @@ const geo_call = function (data) {
     return _dictColorList;
   }, []);
 
-  for (datum of data) {
-    const latLng = new google.maps.LatLng(Number(datum[0]), Number(datum[1]));
-    svgMarker.fillColor = chooseColor(datum[2], distColorList);
+  const managePopUp = () => {
+    let markerArray = new Array(data.length);
+    let index = null;
+
+    const addMarker = (marker, i) => {
+      markerArray[i] = marker;
+    };
+
+    const closePrevOpenMarker = () => {
+      if (index !== null) markerArray[index].close();
+    };
+
+    const setCurrentOpenMarkerIndex = (i) => {
+      index = i;
+    };
+
+    return { addMarker, closePrevOpenMarker, setCurrentOpenMarkerIndex };
+  };
+
+  const { addMarker, closePrevOpenMarker, setCurrentOpenMarkerIndex } =
+    managePopUp();
+
+  for (let i in data) {
+    const [latitude, longitude, freqency] = data[i];
+    const latLng = new google.maps.LatLng(Number(latitude), Number(longitude));
+    svgMarker.fillColor = chooseColor(freqency, distColorList);
 
     const content = `
     <div>
-    <p>${datum[2]}</p>
+    <p>${freqency}</p>
     <dr>
-    <p>Latitude: ${datum[0]}</p>
-    <p>Longitude: ${datum[1]}</p>
+    <p>Latitude: ${latitude}</p>
+    <p>Longitude: ${longitude}</p>
     </div>
     `;
 
@@ -336,12 +356,16 @@ const geo_call = function (data) {
     });
 
     marker.addListener("click", () => {
+      closePrevOpenMarker();
       infowindow.open({
         anchor: marker,
         map,
         shouldFocus: false,
       });
+      setCurrentOpenMarkerIndex(i);
     });
+
+    addMarker(infowindow, i);
   }
   generateLegend(distColorList);
   if (!isRoot) editgenelateLink();
