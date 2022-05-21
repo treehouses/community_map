@@ -23,6 +23,30 @@ const colorWithPriolity = [
   { priolirty: 11, order: 11, color: "#eb88f8" },
 ];
 
+const fontSpecify = 'style="font-size:12px;"';
+
+const managePopUp = () => {
+  let markerArray = new Array(0);
+  let index = null;
+
+  const addMarker = (marker) => {
+    markerArray.push(marker);
+  };
+
+  const closePrevOpenMarker = () => {
+    if (index !== null) markerArray[index].close();
+  };
+
+  const setCurrentOpenMarkerIndex = (i) => {
+    index = i;
+  };
+
+  return { addMarker, closePrevOpenMarker, setCurrentOpenMarkerIndex };
+};
+
+const { addMarker, closePrevOpenMarker, setCurrentOpenMarkerIndex } =
+  managePopUp();
+
 const compareOrder = (a, b) => {
   if (a.order > b.order) {
     return 1;
@@ -51,9 +75,11 @@ class MapPinGenerationFailError extends Error {
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 2,
+    isFractionalZoomEnabled: true,
     center: new google.maps.LatLng(2.8, -187.3),
     mapTypeId: "terrain",
   });
+  map.addListener("click", () => closePrevOpenMarker());
 
   // Create a <script> tag and set the USGS URL as the source.
   const script = document.createElement("script");
@@ -279,11 +305,6 @@ const switchInputMode = () => {
   }
 };
 
-class EventControl {
-  constructor() {
-    this.current;
-  }
-}
 // Loop through the res array and place a marker for each
 // set of coordinates.
 const geo_call = function (data) {
@@ -309,39 +330,17 @@ const geo_call = function (data) {
     return _dictColorList;
   }, []);
 
-  const managePopUp = () => {
-    let markerArray = new Array(data.length);
-    let index = null;
-
-    const addMarker = (marker, i) => {
-      markerArray[i] = marker;
-    };
-
-    const closePrevOpenMarker = () => {
-      if (index !== null) markerArray[index].close();
-    };
-
-    const setCurrentOpenMarkerIndex = (i) => {
-      index = i;
-    };
-
-    return { addMarker, closePrevOpenMarker, setCurrentOpenMarkerIndex };
-  };
-
-  const { addMarker, closePrevOpenMarker, setCurrentOpenMarkerIndex } =
-    managePopUp();
-
   for (let i in data) {
     const [latitude, longitude, freqency] = data[i];
     const latLng = new google.maps.LatLng(Number(latitude), Number(longitude));
     svgMarker.fillColor = chooseColor(freqency, distColorList);
 
     const content = `
-    <div>
-    <p>${freqency}</p>
+    <div >
+    <p ${fontSpecify}>${freqency}</p>
     <dr>
-    <p>Latitude: ${latitude}</p>
-    <p>Longitude: ${longitude}</p>
+    <p ${fontSpecify}>Latitude: ${parseFloat(latitude).toFixed(2)}</p>
+    <p ${fontSpecify}>Longitude: ${parseFloat(longitude).toFixed(2)}</p>
     </div>
     `;
 
@@ -365,7 +364,7 @@ const geo_call = function (data) {
       setCurrentOpenMarkerIndex(i);
     });
 
-    addMarker(infowindow, i);
+    addMarker(infowindow);
   }
   generateLegend(distColorList);
   if (!isRoot) editgenelateLink();
