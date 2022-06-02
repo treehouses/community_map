@@ -8,7 +8,7 @@ def main():
 
     update.store_newdata_local_db()
     dataset.produce_new_dataset('data')
-    duration.produce()
+    duration.produce("all")
     html.build()
 
 if __name__ == "__main__":

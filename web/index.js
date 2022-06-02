@@ -337,7 +337,7 @@ const geo_call = function (data) {
   }, []);
 
   for (let i in data) {
-    const [latitude, longitude, freqency, macAddressArrayString] = data[i];
+    const [latitude, longitude, freqency, rpiNumber] = data[i];
     const latLng = new google.maps.LatLng(Number(latitude), Number(longitude));
     svgMarker.fillColor = chooseColor(freqency, distColorList);
 
@@ -347,8 +347,7 @@ const geo_call = function (data) {
     <dr>
     <p ${fontSpecify}>Latitude: ${parseFloat(latitude).toFixed(2)}</p>
     <p ${fontSpecify}>Longitude: ${parseFloat(longitude).toFixed(2)}</p>
-    <p ${fontSpecify}>Mac Address List</p>
-    ${generateMacAddressList(macAddressArrayString)}
+    <p ${fontSpecify}>Raspbery Pi #: ${rpiNumber}</p>
     </div>
     `;
 

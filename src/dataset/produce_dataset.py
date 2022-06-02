@@ -29,7 +29,8 @@ def _expand_list(data):
 
 def _convert_list(data):
 
-    return [f'["{data[0]}","{data[1]}","{data[2]}",{_expand_list(data[3])}]' for data in data]
+    return [f'["{data[0]}","{data[1]}","{data[2]}","{data[3]}"]' for data in data]
+    #return [f'["{data[0]}","{data[1]}","{data[2]}",{_expand_list(data[3])}]' for data in data]
 
 def _produce(data, filename):
     _write_data(_make_function(_convert_list(data)), filename)
@@ -41,6 +42,7 @@ def produce_new_dataset(filename: str, date: str='', dir: str='') -> None:
         data = analyze.analyze(date)
         mac = analyze.analyze_mac_and_location(date)
         result = pd.merge(data, mac, how='outer', on=['approx_latitude', 'approx_longitude'])
+        print(result)
         result.to_csv(f'./data/{filename}.csv')
         _produce(result.values, f'./data/{filename}.js')
     elif date and dir and filename:

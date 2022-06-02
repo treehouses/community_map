@@ -40,19 +40,19 @@ def _make_mac_and_location_df(data):
         key = datum[0]
         if not key in latlng_mac_dict.keys():
             latlng_mac_dict[key] = []
-        latlng_mac_dict[key].append(datum[1])
+        latlng_mac_dict[key].append(datum[1].strip())
     
     prev_df = {
         'approx_latitude': [],
         'approx_longitude': [],
-        'bluetoothMacAddress': []
+        'rpiNumber': []
     }
     for key, val in latlng_mac_dict.items():
         prev_df['approx_latitude'].append(key[0])
         prev_df['approx_longitude'].append(key[1])
-        prev_df['bluetoothMacAddress'].append(val)
+        prev_df['rpiNumber'].append(str(len(val)))
     
-    prev_df['bluetoothMacAddress'] = [list(set(data)) for data in prev_df['bluetoothMacAddress']]
+    print(prev_df['rpiNumber'])
     
     return pd.DataFrame(prev_df)
 
