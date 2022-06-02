@@ -7,7 +7,7 @@ import src.build.html as html
 def main():
 
     update.store_newdata_local_db()
-    dataset.produce_new_dataset('treehouses')
+    dataset.produce_new_dataset('data')
     duration.produce()
     html.build()
 
