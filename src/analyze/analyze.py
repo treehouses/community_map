@@ -52,8 +52,6 @@ def _make_mac_and_location_df(data):
         prev_df['approx_longitude'].append(key[1])
         prev_df['rpiNumber'].append(str(len(val)))
     
-    print(prev_df['rpiNumber'])
-    
     return pd.DataFrame(prev_df)
 
 def analyze_mac_and_location(date=None):

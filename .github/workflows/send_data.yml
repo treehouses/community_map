@@ -1,17 +1,22 @@
-name: Send Gio Data
+name: Upload New Web Site
 
 on:
   push:
-  #workflow_dispatch:
 
 jobs:
   Send:
-    name: Send Gio Data
+    name: Upload New Web Site
     runs-on: ubuntu-latest
 
     steps:
       - name: checkout
         uses: actions/checkout@v2
+
+      - name: Update database
+        env:
+          GOOGLE_KEY: ${{ secrets.GOOGLE_KEY }}
+        run: |
+          python main.py build
 
       - name: sshagent
         uses: webfactory/ssh-agent@v0.5.2
@@ -20,10 +25,8 @@ jobs:
 
       - name: deploy
         run: |
-          branch="${GITHUB_REF#refs/heads/}"
-          echo "The branched that was pushed is $branch"
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           echo "maps.media.mit.edu ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFqXBJPFe+pH3L57o1ildAxHssG4lpkloTcw3Wbs64c7bL8M6hR0rre4ufpCKboVLn4trJqbKOPWtFgBJHsgqXA=" > ~/.ssh/known_hosts
-          touch data.txt
-          scp data.txt root@maps.media.mit.edu:/root/map/data/
+          scp ./web/*.js root@maps.media.mit.edu:/root/map/
+          scp ./web/*.html root@maps.media.mit.edu:/root/map/

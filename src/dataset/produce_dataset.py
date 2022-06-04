@@ -42,7 +42,6 @@ def produce_new_dataset(filename: str, date: str='', dir: str='') -> None:
         data = analyze.analyze(date)
         mac = analyze.analyze_mac_and_location(date)
         result = pd.merge(data, mac, how='outer', on=['approx_latitude', 'approx_longitude'])
-        print(result)
         result.to_csv(f'./data/{filename}.csv')
         _produce(result.values, f'./data/{filename}.js')
     elif date and dir and filename:
