@@ -8,8 +8,8 @@ import time
 
 from src.communicate_db import send_db
 from src.communicate_db import get_local_id_list
-from src.download_remote_db import get_remote_db_dataset
-from src.geodata import get_approx_geodata
+from src.database.download_remote_db import get_remote_db_dataset
+from src.database.geodata import get_approx_geodata
 from env import LOCAL_DB_URL
 from env import headers_local
 

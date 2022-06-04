@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Simple Map</title>
+    <meta name="description" content="Main Page" />
+    <meta name="Treehouses" content="Community Map" />
+
+    <meta property="og:title" content="Main Page" />
+    <meta property="og:type" content="website" />
+
+    <link rel="icon" href="asset/favicon.ico" />
+    <link rel="icon" href="asset/favicon.svg" type="image/svg+xml" />
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="container flex">
+        <img src="asset/treehouses.svg" alt="Treehouses Logo" />
+        <h1 class="logo">Community Map</h1>
+        <nav>
+          <ul>
+            <li class="nav"><a class="outline" href="index.html">Main</a></li>
+            <li class="nav"><a href="map.html" class="outline">Main Map</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <article class="map-container">
+      <div id="legend">
+        <div id="generate-link">
+          <hr />
+
+          <p id="toggle-label">Year</p>
+          <input type="checkbox" id="switch" class="checkbox" />
+          <label for="switch" class="toggle"> </label>
+
+          <div id="month-link" hidden="hidden">
+            <p><label>Choose Month</label></p>
+            <input
+              type="month"
+              id="month-select"
+              name="name"
+              min="2020-04"
+              size="10"
+            />
+          </div>
+
+          <div id="year-link">
+            <p><label>Choose Year</label></p>
+            <select id="year-select">
+              <option value="">--Please choose year--</option>
+              <option value="">All</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="map"></div>
+    </article>
+
+    <script src="index.js"></script>
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key={google_key}&callback=initMap&v=weekly"
+      async
+    ></script>
+  </body>
+</html>

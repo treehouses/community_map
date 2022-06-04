@@ -7,6 +7,7 @@ if os.getcwd() == '/home/runner/work/communitymap/communitymap':
     REMOTE_DB_URL = os.environ["REMOTE_DB_URL"]
     HEADER_KEY  = os.environ["HEADER_KEY"]
     HEADER_LOCAL_KEY = os.environ["HEADER_LOCAL_KEY"]
+    GOOGLE_KEY = os.environ["GOOGLE_KEY"]
 else:
     import secrets 
 
@@ -15,6 +16,7 @@ else:
     REMOTE_DB_URL = secrets.REMOTE_DB_URL
     HEADER_KEY  = secrets.HEADER_KEY
     HEADER_LOCAL_KEY = secrets.HEADER_LOCAL_KEY
+    GOOGLE_KEY = secrets.GOOGLE_KEY
 
 ROOT = os.getcwd()
 headers = {"X-Parse-Application-Id": HEADER_KEY,

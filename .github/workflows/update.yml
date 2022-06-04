@@ -27,10 +27,12 @@ jobs:
           REMOTE_DB_URL: ${{ secrets.REMOTE_DB_URL }}
           HEADER_KEY: ${{  secrets.HEADER_KEY }}
           HEADER_LOCAL_KEY: ${{ secrets.HEADER_LOCAL_KEY }}
+          GOOGLE_KEY: ${{ secrets.GOOGLE_KEY }}
         run: |
           mkdir data
+          mkdir data/year
+          mkdir data/month
           python main.py
-          python analyze_main.py
 
       - name: sshagent
         uses: webfactory/ssh-agent@v0.5.2
@@ -44,7 +46,11 @@ jobs:
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           echo "maps.media.mit.edu ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFqXBJPFe+pH3L57o1ildAxHssG4lpkloTcw3Wbs64c7bL8M6hR0rre4ufpCKboVLn4trJqbKOPWtFgBJHsgqXA=" > ~/.ssh/known_hosts
-          scp ./data/treehouses.js root@maps.media.mit.edu:/root/map/data/data.js
+          scp ./data/*.js root@maps.media.mit.edu:/root/map/data/
+          scp ./data/year/*.js root@maps.media.mit.edu:/root/map/data/
+          scp ./data/month/*.js root@maps.media.mit.edu:/root/map/data/
+          scp ./web/*.js root@maps.media.mit.edu:/root/map/
+          scp ./web/*.html root@maps.media.mit.edu:/root/map/
 
       - name: Upload Result
         uses: actions/upload-artifact@v2

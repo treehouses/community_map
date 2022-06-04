@@ -6,3 +6,4 @@ cron
 __pycache__/
 env/
 data/
+web/*.html
